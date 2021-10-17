@@ -9,9 +9,7 @@ def seller_commission(home_price: Real) -> float:
     first_rate = 0.07
     second_rate = 0.025
     threshold = 100000
-    return first_rate * min(threshold, home_price) + second_rate * max(
-        0, home_price - threshold
-    )
+    return first_rate * min(threshold, home_price) + second_rate * max(0, home_price - threshold)
 
 
 def buyer_commission(home_price: Real) -> float:
@@ -19,9 +17,7 @@ def buyer_commission(home_price: Real) -> float:
     first_rate = 0.03125
     second_rate = 0.011625
     threshold = 100000
-    return first_rate * min(threshold, home_price) + second_rate * max(
-        0, home_price - threshold
-    )
+    return first_rate * min(threshold, home_price) + second_rate * max(0, home_price - threshold)
 
 
 def property_transfer_tax(home_price: Real) -> float:
@@ -30,15 +26,13 @@ def property_transfer_tax(home_price: Real) -> float:
     first_rate = 0.01
     second_rate = 0.02
     threshold = 200000
-    return first_rate * min(threshold, home_price) + second_rate * max(
-        0, home_price - threshold
-    )
+    return first_rate * min(threshold, home_price) + second_rate * max(0, home_price - threshold)
 
 
 def continuous_rate(annual_rate: float, n_compounds: int = 1) -> float:
     """
     Convert an annual rate to a continuously compounding annual rate.
-    
+
     ## Continuous Compounding
 
     All rates will be converted to continuously compounding.
@@ -105,8 +99,8 @@ def mortgage_balance(years: Real, mortgage: Real, mortgage_rate: float, term: in
     years = min(years, term)
     cr = continuous_rate(mortgage_rate, 2)
     annual_payment = mortgage_payment(mortgage, mortgage_rate, term)
-    total_cost = annual_payment*years
-    interest_cost = (mortgage*cr - annual_payment)*(np.exp(cr*years)-1)/cr + annual_payment*years
+    total_cost = annual_payment * years
+    interest_cost = (mortgage * cr - annual_payment) * (np.exp(cr * years) - 1) / cr + annual_payment * years
     principal_cost = total_cost - interest_cost
     principal_balance = mortgage - principal_cost
     return interest_cost, principal_cost, principal_balance
@@ -123,8 +117,6 @@ def opportunity_cost(
     roi = continuous_rate(annual_rate=return_on_investment, n_compounds=1)
     initial_opportunity = initial_cost * (np.exp(roi * years) - 1)
     recurring_opportunity = (
-        recurring_costs
-        / (years * 12)
-        * ((np.exp(roi / 12 * (years * 12)) - 1) / (np.exp(roi / 12) - 1) - years * 12)
+        recurring_costs / (years * 12) * ((np.exp(roi / 12 * (years * 12)) - 1) / (np.exp(roi / 12) - 1) - years * 12)
     )
     return initial_opportunity + recurring_opportunity
